@@ -31,9 +31,6 @@ class AddressMe:
             )
         )
 
-        # test_lat = # 0.341510
-        # test_lon = # 32.593860
-
         req = requests.get(
             '{}{},{}'.format(
                 self.mapcode_codes_resource_url, self.latitude, self.longitude)
