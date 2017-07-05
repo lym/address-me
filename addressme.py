@@ -24,13 +24,7 @@ class AddressMe:
         self.latitude  = arguments.lat
         self.longitude = arguments.lon
 
-    def get_mapcode(self, lat, lon):
-        print(
-            'latitude is: {}\nlongitude is: {}'.format(
-                self.latitude, self.longitude
-            )
-        )
-
+    def get_mapcodes(self, lat, lon):  # returns list of mapcodes
         req = requests.get(
             '{}{},{}'.format(
                 self.mapcode_codes_resource_url, self.latitude, self.longitude)
@@ -50,12 +44,12 @@ class AddressMe:
                 else:
                     territories.append(value)
 
-        print(
-            "Status Code: {}\n\nCodes: {}".format(
-                req.status_code, returned_codes)
-        )
+        return returned_codes
 
 
 if __name__ == '__main__':
     addresser = AddressMe()
-    addresser.get_mapcode(addresser.latitude, addresser.longitude)
+    print('latitude is: {}\nlongitude is: {}'.format(
+          addresser.latitude, addresser.longitude))
+    mapcodes = addresser.get_mapcodes(addresser.latitude, addresser.longitude)
+    print("Codes: {}".format(mapcodes))
