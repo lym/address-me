@@ -3,43 +3,62 @@ import json
 
 import requests
 
-parser = argparse.ArgumentParser(
-    description='Simple commandline utility that returns a map code'
-)
 
-parser.add_argument('--lat', dest='lat', type=float, help='The latitude.')
-parser.add_argument('--lon', dest='lon', type=float, help='The longitude..')
-arguments = parser.parse_args()
+class AddressMe:
+    def __init__(self):
+        mapcode_api_url = 'https://api.mapcode.com/'
+        mapcode_codes_resource_path = 'mapcode/codes/'
+        parser = argparse.ArgumentParser(
+            description='Simple commandline utility that returns a map code'
+        )
 
-latitude  = arguments.lat
-longitude = arguments.lon
+        parser.add_argument(
+            '--lat', dest='lat', type=float, help='The latitude.'
+        )
+        parser.add_argument(
+            '--lon', dest='lon', type=float, help='The longitude..'
+        )
+        arguments = parser.parse_args()
 
-print(
-    'latitude is: {}\nlongitude is: {}'.format(latitude, longitude)
-)
+        self.mapcode_codes_resource_url  = mapcode_api_url + mapcode_codes_resource_path  # NOQA
+        self.latitude  = arguments.lat
+        self.longitude = arguments.lon
 
-mapcode_api_url = 'https://api.mapcode.com/'
-mapcode_codes_resource_path = 'mapcode/codes/'
-mapcode_codes_resource_url  = mapcode_api_url + mapcode_codes_resource_path
+    def get_mapcode(self, lat, lon):
+        print(
+            'latitude is: {}\nlongitude is: {}'.format(
+                self.latitude, self.longitude
+            )
+        )
 
-# test_lat = # 0.341510
-# test_lon = # 32.593860
+        # test_lat = # 0.341510
+        # test_lon = # 32.593860
 
-req = requests.get(
-    '{}{},{}'.format(mapcode_codes_resource_url, latitude, longitude)
-)
+        req = requests.get(
+            '{}{},{}'.format(
+                self.mapcode_codes_resource_url, self.latitude, self.longitude)
+        )
 
-# We need to decode the bytestring that is returned by the requests library
-response_content = json.loads(bytes.decode(req.content))
-mapcodes = response_content.get('mapcodes')
+        # We need to decode the bytestring that is returned by the requests
+        # library
+        response_content = json.loads(bytes.decode(req.content))
+        mapcodes = response_content.get('mapcodes')
 
-returned_codes = []
-territories    = []
-for el in mapcodes:
-    for key, value in el.items():
-        if key == 'mapcode':
-            returned_codes.append(value)
-        else:
-            territories.append(value)
+        returned_codes = []
+        territories    = []
+        for el in mapcodes:
+            for key, value in el.items():
+                if key == 'mapcode':
+                    returned_codes.append(value)
+                else:
+                    territories.append(value)
 
-print("Status Code: {}\n\nCodes: {}".format(req.status_code, returned_codes))
+        print(
+            "Status Code: {}\n\nCodes: {}".format(
+                req.status_code, returned_codes)
+        )
+
+
+if __name__ == '__main__':
+    addresser = AddressMe()
+    addresser.get_mapcode(addresser.latitude, addresser.longitude)
