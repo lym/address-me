@@ -1,12 +1,8 @@
 # AddressMe
-addressme is a simple commandline utility that returns a map code
+addressme is a simple commandline utility that returns a mapcode
 corresponding to the supplied latitude and logitude arguments.
 
-A mapcode is simple string representing a location.
-
-Sample latitude, longitude pair:
-lat:  0.341510
-lon: 32.593860
+A [mapcode](http://www.mapcode.com/) is simple string representing a location.
 
 # Usage
 
@@ -16,6 +12,7 @@ lon: 32.593860
     $ pip-sync requirements.txt
 
 ## Excute CLI
+Sample latitude, longitude pair: {lat:  0.341510 lon: 32.593860}
 
     $ ./addressme --lat [latitude] --lon [longitude]
 
