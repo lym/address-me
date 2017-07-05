@@ -4,6 +4,8 @@ corresponding to the supplied latitude and logitude arguments.
 
 A [mapcode](http://www.mapcode.com/) is simple string representing a location.
 
+This code leverages the mapcodes API.
+
 # Usage
 
 ## Install requirements
